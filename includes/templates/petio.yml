@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+
+  petio:
+    image: ghcr.io/petio-team/petio:latest
+    container_name: petio
+    environment:
+      - TZ=Europe/Paris
+    volumes:
+      - {{APP_SETTINGS_DIR}}/petio/config:/app/api/config
+      - {{APP_SETTINGS_DIR}}/petio/logs:/app/logs
+      - {{USER_HOME}}:{{USER_HOME}}
+    user: '{{PUID}}:{{PGID}}'   
+    restart: unless-stopped
+    networks:
+      - mon-reseau
+
+  mongo:
+    image: mongo:4.4
+    container_name: mongo
+    networks:
+      - mon-reseau
+    user: '{{PUID}}:{{PGID}}'
+    volumes:
+      - {{APP_SETTINGS_DIR}}/mongo/db:/data/db
+            
+networks:
+  mon-reseau:
+    driver: bridge
