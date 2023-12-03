@@ -17,7 +17,8 @@ services:
       - mon-reseau
 
   mongo:
-    image: mongo:latest
+    image: arm64v8/mongo:4.0
+    platform: linux/arm64/v8
     container_name: mongo
     networks:
       - mon-reseau
